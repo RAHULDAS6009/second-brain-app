@@ -1,16 +1,20 @@
-import { Request, Response } from "express"
-import connectToDatabase from "./config"
+import { Request, Response } from "express";
+import connectToDatabase from "./config";
+import routes from "./routes/index";
 
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require("express");
+const app = express();
+const port = 3000;
 
 connectToDatabase();
-
-app.get('/', (req:Request, res:Response) => {
-  res.send('Hello World!')
-})
+app.use(express.json());
+app.use("/api/v1/", routes);
+// app.post("/randomData", (req: Request, res: Response) => {
+//   res.send({
+//     mdg: req.body.username,
+//   });
+// });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
