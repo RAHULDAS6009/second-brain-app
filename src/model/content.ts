@@ -1,5 +1,5 @@
 import mongoose, { Types } from "mongoose";
-enum contentType {
+export enum contentType {
   image,
   video,
   article,
