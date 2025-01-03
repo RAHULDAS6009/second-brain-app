@@ -4,9 +4,18 @@ import User from "../model/user";
 import bcrypt from "bcrypt";
 import { createToken } from "../service";
 
+const passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*d)(?=.*[@#$%^&+=!]).*$";
+
 const userSchema = z.object({
   username: z.string().min(3).max(10),
-  password: z.string().min(8).max(20),
+  password: z
+    .string()
+    .min(8)
+    .max(20)
+    .regex(new RegExp(".*[A-Z].*"))
+    .regex(new RegExp(".*[a-z].*"))
+    .regex(new RegExp(".*[0-9].*"))
+    .regex(new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*")),
 });
 
 let router: express.Router = express.Router();

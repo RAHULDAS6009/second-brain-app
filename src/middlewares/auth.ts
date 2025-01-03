@@ -8,8 +8,9 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   const splitWords = authorizationHeader.split(" ");
   const token = splitWords[1];
 
-  const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string);
-  
+  const decodedValue = jwt.verify(token, process.env.JWT_SECRET as string);
+  // req.user = decodedValue?.id;
+  next();
 };
 
 export default auth;
