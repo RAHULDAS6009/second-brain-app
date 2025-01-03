@@ -8,7 +8,11 @@ const port = 3000;
 
 connectToDatabase();
 app.use(express.json());
+app.get("/",(req:Request,res:Response)=>{
+res.send("hyu;")
+})
 app.use("/api/v1/", routes);
+
 // app.post("/randomData", (req: Request, res: Response) => {
 //   res.send({
 //     mdg: req.body.username,

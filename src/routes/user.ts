@@ -11,16 +11,28 @@ const userSchema = z.object({
 
 let router: express.Router = express.Router();
 
-router.get("/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
   try {
     const parsedUser = userSchema.parse(req.body);
-    const user = await User.find({ username: parsedUser.username });
-    // const comparePassword=await bcrypt.compare(parsedUser.password,user.password);
+    const user = await User.findOne({ username: parsedUser.username });
+    const comparePassword = await bcrypt.compare(
+      parsedUser.password,
+      user?.password as string
+    );
     if (!user) {
       res.json({ msg: "User does not exsist" });
     }
-    //match the password
-    res.status(200).json({ msg: "validation passed", user: user });
+    if (!comparePassword) {
+      res.json({ msg: "password does not match" });
+    }
+
+    res.status(200).json({
+      msg: "Signed in ",
+      token: createToken({
+        id: String(user?._id),
+        username: user?.username as string,
+      }),
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error("validation failed", error.issues[0]);
