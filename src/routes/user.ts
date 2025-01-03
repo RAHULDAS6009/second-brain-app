@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { z } from "zod";
 import User from "../model/user";
 import bcrypt from "bcrypt";
@@ -11,7 +11,7 @@ const userSchema = z.object({
 
 let router: express.Router = express.Router();
 
-router.post("/signin", async (req, res) => {
+router.post("/signin", async (req: Request, res: Response) => {
   try {
     const parsedUser = userSchema.parse(req.body);
     const user = await User.findOne({ username: parsedUser.username });
@@ -20,10 +20,10 @@ router.post("/signin", async (req, res) => {
       user?.password as string
     );
     if (!user) {
-      res.json({ msg: "User does not exsist" });
+      res.status(404).json({ msg: "User does not exsist" });
     }
     if (!comparePassword) {
-      res.json({ msg: "password does not match" });
+      res.status(404).json({ msg: "password does not match" });
     }
 
     res.status(200).json({
@@ -46,11 +46,11 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res): Promise<any> => {
   try {
     const parsedUser = userSchema.parse(req.body);
     const user = await User.findOne({ username: parsedUser.username });
-    if (user) res.status(403).json({ msg: "User already exsist" });
+    if (user) return res.status(403).json({ msg: "User already exsist" });
     const newUser = await User.create({
       username: parsedUser.username,
       password: await bcrypt.hash(parsedUser.password, 10),
