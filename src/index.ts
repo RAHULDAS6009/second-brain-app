@@ -7,6 +7,8 @@ const app = express();
 const port = 3000;
 
 connectToDatabase();
+// Integrate the ai part
+// https://excalidraw.com/#json=Zu2bpX5MQb0ckMvUBIVev,VFiMryfDBIluxCv4yFl7jw
 app.use(express.json());
 app.get("/",(req:Request,res:Response)=>{
 res.send("hyu;")

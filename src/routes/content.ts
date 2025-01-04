@@ -12,15 +12,17 @@ const contentSchema = z.object({
 });
 //add a new content
 router.post("/content", async (req, res) => {
-  const contentBody = contentSchema.parse(req.body);
-  const newContent = await Content.create({
-    title: contentBody.title,
-    type: contentBody.type,
-    link: contentBody.link,
-    tags: contentBody.tags,
-    userId: req.body.userId,
-  });
-  res.send({ msg: "new content added" });
+  try {
+    const contentBody = contentSchema.parse(req.body);
+    const newContent = await Content.create({
+      title: contentBody.title,
+      type: contentBody.type,
+      link: contentBody.link,
+      tags: contentBody.tags,
+      userId: req.body.userId,
+    });
+    res.send({ msg: "new content added" });
+  } catch (error) {}
 });
 
 // all user exsisting contents
@@ -35,7 +37,5 @@ router.delete("/content/:id", async (req, res) => {
   const allContents = await Content.deleteOne({ userId: req.body.userId }); //later it is changed to userId given from middleware
   res.send({ contents: allContents });
 });
-
-
 
 export default router;
