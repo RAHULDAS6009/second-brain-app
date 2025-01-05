@@ -7,6 +7,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   const authorizationHeader = req.headers["Authorization"] as string;
   const splitWords = authorizationHeader.split(" ");
   const token = splitWords[1];
+  //check it initailly have Bearer or not 
 
   const decodedValue = jwt.verify(
     token,
