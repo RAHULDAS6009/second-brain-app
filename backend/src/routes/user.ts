@@ -4,8 +4,6 @@ import User from "../model/user";
 import bcrypt from "bcrypt";
 import { createToken } from "../service";
 
-const passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*d)(?=.*[@#$%^&+=!]).*$";
-
 const userSchema = z.object({
   username: z.string().min(3).max(10),
   password: z
@@ -29,26 +27,31 @@ router.post("/signin", async (req: Request, res: Response) => {
       user?.password as string
     );
     if (!user) {
-      res.status(404).json({ msg: "User does not exsist" });
+      res.status(403).json({ msg: "User does not exsist" });
     }
     if (!comparePassword) {
-      res.status(404).json({ msg: "password does not match" });
+      res.status(403).json({ msg: "Password is wrong" });
     }
 
-    res.status(200).json({
-      msg: "Signed in ",
-      token: createToken({
-        id: String(user?._id),
-        username: user?.username as string,
-      }),
+    const token = createToken({
+      id: String(user?._id),
+      username: user?.username as string,
     });
+
+    res.cookie("token", "Bearer " + token, { httpOnly: true }).send({ userId: user?._id }).json({
+        msg:"Signed Up Successfully"
+      });
+    // res.status(200).json({
+    //   msg: "Signed in ",
+    //   token: token,
+    // });
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error("validation failed", error.issues[0]);
       res.json({ msg: error.issues[0].message });
     } else {
       console.error("Unexpected error : ", error);
-      res.json({
+      res.status(500).json({
         msg: "some error occured",
       });
     }
@@ -74,10 +77,16 @@ router.post("/signup", async (req, res): Promise<any> => {
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error("validation failed", error.issues[0]);
-      res.json({ msg: error.issues[0].message });
+      if (error.issues[0].path[0] == "username") {
+        res.json({ msg: "username should be 3-10 letters" });
+      } else {
+        res.status(411).json({
+          msg: "Password should be 8 to 20 letters, should have atleast one uppercase, one lowercase, one special character, one number",
+        });
+      }
     } else {
       console.error("Unexpected error : ", error);
-      res.json({
+      res.status(500).json({
         msg: "some error occured",
       });
     }

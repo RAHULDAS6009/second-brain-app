@@ -7,6 +7,6 @@ let router: express.Router = express.Router();
 
 router.use("/content", contentRouter);
 router.use("/user", userRouter);
-router.use("/user", brainRouter);
+router.use("/brain", brainRouter);
 
 export = router;

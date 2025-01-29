@@ -2,7 +2,7 @@ import mongoose, { Types } from "mongoose";
 export enum contentType {
   image,
   video,
-  article,
+  document,
   audio,
 }
 const contentSchema = new mongoose.Schema({

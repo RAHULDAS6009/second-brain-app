@@ -8,4 +8,10 @@ router.post("/share", (req: Request, res: Response) => {
     // res.redirect to the original url
 });
 
+// anyone shared link
+router.get("/share/:id", (req: Request, res: Response) => {
+    //create a url 
+    // res.redirect to the original url
+});
+
 export default router;
