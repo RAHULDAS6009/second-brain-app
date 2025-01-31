@@ -38,9 +38,11 @@ router.post("/signin", async (req: Request, res: Response) => {
       username: user?.username as string,
     });
 
-    res.cookie("token", "Bearer " + token, { httpOnly: true }).send({ userId: user?._id }).json({
-        msg:"Signed Up Successfully"
-      });
+    res
+      .cookie("token", "Bearer " + token, { httpOnly: true })//learn and right the important properties of cookies
+      .json({
+        msg: "Signed in Successfully",
+      })
     // res.status(200).json({
     //   msg: "Signed in ",
     //   token: token,

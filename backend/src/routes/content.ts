@@ -2,6 +2,7 @@ import express from "express";
 import { z } from "zod";
 import Content from "../model/content";
 import Tag from "../model/tag";
+import Link from "../model/link";
 const router: express.Router = express.Router();
 const VALUES = ["image", "video", "document", "audio"] as const;
 
@@ -12,6 +13,7 @@ const contentSchema = z.object({
   tags: z.string().array(),
 });
 type contentType = z.infer<typeof contentSchema>;
+
 //add a new content
 router.post("/", async (req, res) => {
   try {
@@ -21,25 +23,29 @@ router.post("/", async (req, res) => {
     //see for the tag inside the database
     //create a tag if not exsist in the database
     //create a link instance in the database
-    console.log(contentBody.tags[0]);
-    let newTag = await Tag.findOne({ title: contentBody.tags[0] });
-    console.log(newTag);
-    if (!newTag) {
-      newTag = await Tag.create({ title: contentBody.tags[0] });
+    let tag = await Tag.findOne({ title: contentBody.tags[0] });//finMany 
+    if (!tag) {
+      tag = await Tag.create({ title: contentBody.tags[0] });//createMany or insertMany
     }
-    console.log(newTag);
+   
+    // let link =await Link.findOne({})
 
     const newContent = await Content.create({
       title: contentBody.title,
       type: contentBody.type,
       link: contentBody.link,
-      tags: newTag._id,
-      userId: req.body.userId,//midddlware function have to be added
+      tags: tag._id,
+      userId: req.user,
     });
-    res.status(200).send({ msg: "new content added", content: newContent });
+    res.status(200).send({ msg: "New content added" });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      // console.log(error.issues[0].message);
+      res.json({ msg: error.issues[0].message });
+    }
+    //error of zod
     console.log(error);
-    res.json({
+    res.status(500).json({
       msg: "some error occured",
     });
   }
