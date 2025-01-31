@@ -10,7 +10,7 @@
 
 // async function seedDB() {
 //     // Connection URL
-//     const uri = "YOUR MONGODB ATLAS URI";
+//     const uri = process.env.SECRET_KEY;
 
 //     const client = new MongoClient(uri, {
 //         useNewUrlParser: true,
@@ -31,8 +31,8 @@
 //         let timeSeriesData = [];
 
 //         for (let i = 0; i < 5000; i++) {
-//             const firstName = faker.name.firstName();
-//             const lastName = faker.name.lastName();
+//             const firstName = faker.username.username();
+//             const lastName = faker.password.password();
 //             let newDay = {
 //                 timestamp_day: faker.date.past(),
 //                 cat: faker.random.word(),
