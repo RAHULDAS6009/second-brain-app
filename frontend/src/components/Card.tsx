@@ -1,3 +1,4 @@
+import { TwitterTweetEmbed } from "react-twitter-embed";
 import { ShareIcon } from "../icons/ShareIcon"
 
 interface CardProps {
@@ -7,6 +8,10 @@ interface CardProps {
 }
 
 export function Card({title, link, type}: CardProps) {
+    const tweetId=link.split("/")[5]
+
+
+    
     return <div>
         <div className="p-4 bg-white rounded-md border-gray-200 max-w-72 border">
             <div className="flex justify-between">
@@ -39,10 +44,9 @@ export function Card({title, link, type}: CardProps) {
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen></iframe>}
 
-                {type === "twitter" && <blockquote
-                className="twitter-tweet">
-                    <a href={link.replace("x.com", "twitter.com")}></a>
-                </blockquote>}
+                {type === "twitter" && <TwitterTweetEmbed
+  tweetId={tweetId}
+/>}
             </div>
         </div>
     </div>
