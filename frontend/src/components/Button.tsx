@@ -1,32 +1,24 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 
 interface ButtonProps {
   variant: "primary" | "secondary";
-  text: String;
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
-  onClick: () => void;
-  size: "sm" | "md" | "lg";
+  text: string;
+  startIcon: ReactElement;
 }
 
-const varaintStyle = {
-  primary: "bg-purple-primary text-white",
-  secondary: "bg-purple-secondary text-purple-sec_text",
-};
-const size = {
-  "sm": "px-2 py-1",
-  "md": "px-4 py-2",
-  "lg": "px-6 py-4",
-};
-const defaultStyle = "rounded-md text-sm";
-export const Button = (props: ButtonProps) => {
-  return (
-    <div
-      className={`${varaintStyle[props.variant]} ${defaultStyle} ${
-        size[props.size]
-      }`}
-    >
-      {props.text}
+const variantClasses = {
+  "primary": "bg-purple-600 text-white",
+  "secondary": "bg-purple-200 text-purple-600",
+}
+
+const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center";
+
+export function Button({variant, text, startIcon}: ButtonProps) {
+  return <button className={variantClasses[variant] + " " + defaultStyles}>
+    <div className="pr-2">
+      {startIcon}
     </div>
-  );
-};
+    {text}
+  </button>
+
+}

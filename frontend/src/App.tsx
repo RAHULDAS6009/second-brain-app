@@ -1,10 +1,12 @@
-import { Button } from "./components/Button";
+import { Button } from "./components/Button"
+import { PlusIcon } from "./icons/Plusicon"
+import { ShareIcon } from "./icons/ShareIcon"
 
 function App() {
-  return <>
-    <Button text={"Share"} variant="primary" size="sm" onClick={()=>console.log("hello world 1")}/>
-    <Button text={"Share"} variant="secondary" size="lg" onClick={()=>console.log("hello world 2")}/>
-  </>;
+  return <div>
+    <Button variant="primary" text="Add Content" startIcon={<PlusIcon/>}></Button>
+    <Button variant="secondary" text="Share Brain" startIcon={<ShareIcon/>}></Button>
+  </div>;
 }
 
 export default App;
