@@ -9,11 +9,12 @@ interface CardProps {
 
 export function Card({title, link, type}: CardProps) {
     const tweetId=link.split("/")[5]
+    console.log(link.replace("watch","embed").replace("?v=","/"))
 
 
     
     return <div>
-        <div className="p-4 bg-white rounded-md border-gray-200 max-w-72 border">
+        <div className="p-4 bg-white rounded-md border-gray-200 max-w-72 border min-h-48 min-s-72">
             <div className="flex justify-between">
                 <div className="flex items-center text-md">
                     <div className="pr-2 text-gray-500">
@@ -45,8 +46,8 @@ export function Card({title, link, type}: CardProps) {
                 allowFullScreen></iframe>}
 
                 {type === "twitter" && <TwitterTweetEmbed
-  tweetId={tweetId}
-/>}
+                tweetId={tweetId}
+                />}
             </div>
         </div>
     </div>
