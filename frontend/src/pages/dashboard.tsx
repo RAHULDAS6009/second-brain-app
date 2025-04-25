@@ -19,8 +19,8 @@ export function Dashboard() {
         <Button variant="secondary" text="Share Brain" startIcon={<ShareIcon/>}></Button>
       </div>
       <div className="flex gap-4">
-        <Card title="first tweet" link="https://x.com/merishabh_singh/status/1912480424581882206" type="twitter"/>
-        <Card title="first youtube" link="https://youtube.com/watch?v=MYyJ4PuL4pY" type="youtube"/>
+        <Card title="Rishabh's Tweet" link="https://x.com/merishabh_singh/status/1912480424581882206" type="twitter"/>
+        <Card title="Laravel From Scratch" link="https://youtube.com/watch?v=MYyJ4PuL4pY" type="youtube"/>
       </div>
     </div>
   </div>;
